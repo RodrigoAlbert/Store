@@ -8,13 +8,22 @@ using DAL.Models;
 
 namespace DAL.Persistence
 {
-    public class ProdutoDAL
+    public class ProdutoDAL : Conexao
     {
         public void Adicionar(Produto p)
         {
             try
             {
-                
+                if (AbreConexao())
+                {
+                    Cmd = new SqlCommand("insert into Produtos (Nome, Area, Quantidade, Modelo) values (@nome, @area, @quantidade, @modelo)", Con);
+                    Cmd.Parameters.AddWithValue("@nome", p.Nome);
+                    Cmd.Parameters.AddWithValue("@area", p.Area);
+                    Cmd.Parameters.AddWithValue("@quantidade", p.Quantidade);
+                    Cmd.Parameters.AddWithValue("@modelo", p.Modelo);
+
+                    Cmd.ExecuteNonQuery();
+                }
             }
             catch (Exception ex)
             {
