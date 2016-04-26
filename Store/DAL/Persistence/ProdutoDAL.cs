@@ -85,5 +85,44 @@ namespace DAL.Persistence
                 FechaConexao();
             }
         }
+
+        public List<Produto> Listar()
+        {
+            try
+            {
+                if (AbreConexao())
+                {
+                    Cmd = new SqlCommand("select * from Produtos", Con);
+                    Dr = Cmd.ExecuteReader();
+
+                    List<Produto> lista = new List<Produto>();
+                    Produto p = new Produto();
+
+                    while (Dr.Read())
+                    {
+                        p.Id = Convert.ToInt32(Dr["Id"]);
+                        p.Nome = Convert.ToString(Dr["Nome"]);
+                        p.Quantidade = Convert.ToInt32(Dr["Quantidade"]);
+                        p.Area = Convert.ToString(Dr["Area"]);
+                        p.Modelo = Convert.ToString(Dr["Modelo"]);
+
+                        lista.Add(p);
+                    }
+
+                    return lista;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                FechaConexao();
+            }
+        }
     }
 }
