@@ -96,7 +96,7 @@ namespace DAL.Persistence
 
                     return lista;
                 }
-                return false;
+                return null;
             }
             catch (Exception)
             {
